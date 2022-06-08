@@ -79,6 +79,9 @@ function getGhostElement(wrapperElement: HTMLElement, { x, y }: Position, contai
   const midX = wrapperVisibleRect.left + (wrapperVisibleRect.right - wrapperVisibleRect.left) / 2;
   const midY = wrapperVisibleRect.top + (wrapperVisibleRect.bottom - wrapperVisibleRect.top) / 2;
   const ghost: HTMLElement = wrapperElement.cloneNode(true) as HTMLElement;
+  
+  ghost.classList.add('dnd-ghost');
+  
   ghost.style.zIndex = '1000';
   ghost.style.boxSizing = 'border-box';
   ghost.style.position = 'fixed';
