@@ -18,6 +18,7 @@ export interface DropResult {
 	removedIndex: number | null;
 	addedIndex: number | null;
 	whereComeFrom?: number | null;
+	options: ContainerOptions;
 	payload?: any;
 	element?: HTMLElement;
 }
