@@ -348,7 +348,12 @@ function onMouseDown(event: MouseEvent & TouchEvent) {
       if (nonDragAreaSelector && Utils.getParent(e.target as Element, nonDragAreaSelector)) {
         startDrag = false;
       }
-
+      
+      const dndDraggableDisabledClass = ".dndDraggableDisabled";
+      if(Utils.getParent(e.target as Element, dndDraggableDisabledClass)) {
+        startDrag = false;
+      }
+      
       if (startDrag) {
         container.layout.invalidate();
         Utils.addClass(window.document.body, constants.disbaleTouchActions);
