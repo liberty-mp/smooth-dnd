@@ -25,7 +25,6 @@ function isDragRelevant({ element, getOptions }: ContainerProps) {
       return options.shouldAcceptDrop(sourceContainer.getOptions(), payload);
     }
     const sourceOptions = sourceContainer.getOptions();
-    if (options.behaviour === 'copy') return false;
 
     const parentWrapper = getParent(element, '.' + wrapperClass);
     if (parentWrapper === sourceContainer.element) {
@@ -167,7 +166,6 @@ function handleDrop({ element, draggables, layout, getOptions }: ContainerProps)
           removedIndex,
           addedIndex: actualAddIndex,
           payload: draggableInfo.payload,
-          // droppedElement: draggableInfo.element.firstElementChild,
         };
         dropHandler(dropHandlerParams, getOptions().onDrop);
       }
@@ -189,14 +187,14 @@ function getContainerProps(element: HTMLElement, getOptions: () => ContainerOpti
   };
 }
 
-function getRemovedItem({ element, getOptions }: ContainerProps) {
+function getRemovedItem({ element }: ContainerProps) {
   let prevRemovedIndex: number | null = null;
   return ({ draggableInfo }: DragInfo) => {
     let removedIndex = prevRemovedIndex;
-    if (prevRemovedIndex == null && draggableInfo.container.element === element && getOptions().behaviour !== 'copy') {
+    if (prevRemovedIndex == null && draggableInfo.container.element === element) {
       removedIndex = prevRemovedIndex = draggableInfo.elementIndex;
     }
-
+    
     return { removedIndex };
   };
 }
