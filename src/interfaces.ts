@@ -41,6 +41,7 @@ export interface DragResult {
   pos: number;
   addedIndex: number | null;
   removedIndex: number | null;
+  whereComeFrom?: number | null;
   elementSize: number;
   shadowBeginEnd: Boundary & { beginAdjustment: number; rect?: TopLeft, dropArea?: Boundary };
   containerBoxChanged?: boolean;

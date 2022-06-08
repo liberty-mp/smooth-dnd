@@ -24,8 +24,10 @@ function isDragRelevant({ element, getOptions }: ContainerProps) {
     if (options.shouldAcceptDrop) {
       return options.shouldAcceptDrop(sourceContainer.getOptions(), payload);
     }
+    
     const sourceOptions = sourceContainer.getOptions();
-
+    if (options.behaviour === 'copy') return true;
+    
     const parentWrapper = getParent(element, '.' + wrapperClass);
     if (parentWrapper === sourceContainer.element) {
       return false;
@@ -155,8 +157,9 @@ function setTargetContainer(draggableInfo: DraggableInfo, element: HTMLElement, 
 function handleDrop({ element, draggables, layout, getOptions }: ContainerProps) {
   const draggablesReset = resetDraggables({ element, draggables, layout, getOptions });
   const dropHandler = (smoothDnD.dropHandler || domDropHandler)({ element, draggables, layout, getOptions });
-  return function (draggableInfo: DraggableInfo, { addedIndex, removedIndex }: DragResult, forDispose: boolean = false) {
+  return function (draggableInfo: DraggableInfo, { addedIndex, removedIndex, whereComeFrom }: DragResult, forDispose: boolean = false) {
     draggablesReset();
+        
     // if drop zone is valid => complete drag else do nothing everything will be reverted by draggablesReset()
     if (!draggableInfo.cancelDrop) {
       if (draggableInfo.targetElement || getOptions().removeOnDropOut || forDispose) {
@@ -166,7 +169,9 @@ function handleDrop({ element, draggables, layout, getOptions }: ContainerProps)
           removedIndex,
           addedIndex: actualAddIndex,
           payload: draggableInfo.payload,
+          whereComeFrom
         };
+        
         dropHandler(dropHandlerParams, getOptions().onDrop);
       }
     }
@@ -187,15 +192,16 @@ function getContainerProps(element: HTMLElement, getOptions: () => ContainerOpti
   };
 }
 
-function getRemovedItem({ element }: ContainerProps) {
+function getRemovedItem({ element, getOptions }: ContainerProps) {
   let prevRemovedIndex: number | null = null;
   return ({ draggableInfo }: DragInfo) => {
     let removedIndex = prevRemovedIndex;
-    if (prevRemovedIndex == null && draggableInfo.container.element === element) {
+    let whereComeFrom = draggableInfo.elementIndex;
+    if (prevRemovedIndex == null && draggableInfo.container.element === element && getOptions().behaviour !== 'copy') {
       removedIndex = prevRemovedIndex = draggableInfo.elementIndex;
     }
     
-    return { removedIndex };
+    return { removedIndex, whereComeFrom };
   };
 }
 

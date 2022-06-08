@@ -17,6 +17,7 @@ type Callback<T> = (params: T) => void;
 export interface DropResult {
 	removedIndex: number | null;
 	addedIndex: number | null;
+	whereComeFrom?: number | null;
 	payload?: any;
 	element?: HTMLElement;
 }
