@@ -66,15 +66,8 @@ function removeReleaseListeners() {
 }
 
 function getGhostParent() {
-  if (draggableInfo && draggableInfo.ghostParent) {
-    return draggableInfo.ghostParent;
-  }
-
-  if (grabbedElement) {
-    return grabbedElement.parentElement || window.document.body;
-  } else {
-    return window.document.body;
-  }
+  // scaling fix  
+  return window.document.body;
 }
 
 function getGhostElement(wrapperElement: HTMLElement, { x, y }: Position, container: IContainer, cursor: string): GhostInfo {
