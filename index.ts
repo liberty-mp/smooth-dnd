@@ -41,5 +41,3 @@ delegateProperty(deprecetedDefaultExport, container, 'dropHandler');
 
 
 export default deprecetedDefaultExport;
-
-console.log("gobrrr");
