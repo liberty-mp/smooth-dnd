@@ -570,6 +570,11 @@ function initiateDrag(position: MousePosition, cursor: string) {
   if (grabbedElement !== null) {
     isDragging = true;
     const container = (containers.filter(p => grabbedElement!.parentElement === p.element)[0]) as IContainer;
+    
+    if (!container) {
+      return
+    }
+    
     container.setDraggables();
     sourceContainerLockAxis = container.getOptions().lockAxis ? container.getOptions().lockAxis!.toLowerCase() as Axis : null;
 
